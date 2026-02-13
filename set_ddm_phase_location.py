@@ -3,20 +3,18 @@ import header as hd
 
 # 设置参数，t0~t6,slope1,slope2,NSTART
 # 这一组对应0.2m分辨率,512个采样点，384个chirp，注意修改采样数和chirp数
-t_config = [20, 2, 20.48, 2, 6.12, 3.2, 1]            # 0.2m
-slope1 = 36.5                                         # 0.2m
+t_config = [20, 2, 20.48, 2, 6.12, 3.2, 1]            # 0.2m  51m 25MSa/s
+slope1 = 36.5                                         # 0.2m  51m 25MSa/s
 
-# t_config = [20, 2, 20.48, 2, 6.12, 3.2, 1]            # 0.98  250m
-# slope1 = 7.5                                          # 0.98  250m
+# t_config = [20, 2, 20.48, 2, 6.12, 3.2, 1]            # 0.98  250m  25MSa/s
+# slope1 = 7.5                                          # 0.98  250m  25MSa/s
 
-# t_config = [20, 2, 20.48, 2, 6.12, 3.2, 1]            # 0.73  187.5m 50MSa/s
-# slope1 = 10                                           # 0.73  187.5m 50MSa/s
+# t_config = [20, 2, 20.48, 2, 6.12, 3.2, 1]            # 0.73  187.5m 25MSa/s
+# slope1 = 10                                           # 0.73  187.5m 25MSa/s
 
 # t_config = [20, 2, 15.36, 2, 4.84, 3.2, 1]            # 0.65  250m 50MSa/s
 # slope1 = 15                                           # 0.65  250m 50MSa/s
 
-# t_config = [20, 2, 20.48, 2, 6.12, 3.2, 1]            # 0.8138  208m 
-# slope1 = 9                                            # 0.65  250m 
 
 # primary_file_name = "ddm_0.2m_512_384_primary.dat"
 # secondary_file_name = "ddm_0.2m_512_384_secondary.dat"
@@ -74,7 +72,7 @@ wait_time_hex = hd.writeConfigValue(hex(NTIME))
 hd.copyData(wait_seg_code_words1, wait_time_hex, 4)
 ddm_words.append(wait_seg_code_words1)
 
-# 循环操作码，设置循环次数，0x0180->384,0x000C->12,0x0020->32
+# 循环操作码，设置循环次数，0x0180->384,0x000C->12,0x0020->32   单个子带bin(chirp)数 乘以子带数为总chirp数
 loop_code_words1 = ['E0','01','00','20']                    # 循环操作码，开始循环，外部循环
 ddm_words.append(loop_code_words1)
 
@@ -105,7 +103,6 @@ hd.copyData(pre_seg_code_words, start_freq_hex, 8)
 slope1_hex = hd.writeConfigValue(hex(NSTEP1))
 hd.copyData(pre_seg_code_words, slope1_hex, 12)
 ddm_words.append(pre_seg_code_words)
-
 
 
 # 有效负载段，设置时长
